@@ -1,0 +1,42 @@
+.container {
+    margin: auto;
+    margin: 100px auto;
+    & > form {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    & input {
+        padding: 0px;
+        outline: none;
+        border: none;
+        height: 50px;
+        padding: 0 25px;
+    }
+    
+    & input:focus, & .formSubmit {
+        outline: none;
+        border: none;
+    }
+
+    & .formSubmit {
+        background-color: #42B883;
+        position: absolute;
+        width: -moz-fit-content;
+        border-radius: 50%;
+        font-size: 35px;
+        padding: 0 10px;
+        width: 50px;
+        height: 50px;
+        color: white;
+        bottom: -17.5px;
+        left: 90%;
+        & > span {
+            position: absolute;
+            transform: translate(-50%, -5%);
+            text-align: center;
+            top: 0;
+            left: 50%;
+        }
+    }
+}

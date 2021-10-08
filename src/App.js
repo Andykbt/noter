@@ -1,24 +1,42 @@
 import logo from './logo.svg';
-import './App.css';
+import * as classes from './App.css';
+import React, { useState, useEffect } from 'react'
+import { Container, Row } from 'react-bootstrap';
+
+import { db } from './firebase'
+import { collection, query, onSnapshot } from '@firebase/firestore'
+import Note from './components/Note';
+import AddCard from './components/AddCard';
 
 function App() {
+  const [notes, setNotes] = useState();
+
+  useEffect(() => {
+    const q = query(collection(db, "notes"))
+    const unsub = onSnapshot(q, (querySnapshot) => {
+        let arr = []
+        querySnapshot.forEach((doc) => {
+          arr.push({ ...doc.data(), id: doc.id })
+        })
+  
+        setNotes(arr)
+    })
+    return () => unsub()
+  }, [])
+  console.log(notes)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+        <AddCard/>
+
+        {notes &&
+        <div style={{display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gridGap:'25px'}}>
+          {notes.map((item) => {
+            return <Note id={item.id} title={item.title} content={item.note}/>
+          })}
+        </div>
+        }
+    </Container>
   );
 }
 
