@@ -1,7 +1,5 @@
-import logo from './logo.svg';
-import * as classes from './App.css';
 import React, { useState, useEffect } from 'react'
-import { Container, Row } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
 import { db } from './firebase'
 import { collection, query, onSnapshot, orderBy } from '@firebase/firestore'

@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { db } from '../firebase';
 import { updateDoc, deleteDoc, doc } from '@firebase/firestore';
 
-import * as classes from './Note.module.scss'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Note({ id, title, content }) {
