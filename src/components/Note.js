@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Card, Modal, Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { db } from '../firebase';
-import { setDoc, deleteDoc, doc } from '@firebase/firestore';
+import { updateDoc, deleteDoc, doc } from '@firebase/firestore';
 
 import * as classes from './Note.module.scss'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -12,15 +12,20 @@ export default function Note({ id, title, content }) {
     const { register, handleSubmit } = useForm();
 
     const updateNote = async (data) => {
-        await setDoc(doc(db, "notes", id), {
+        await updateDoc(doc(db, "notes", id), {
             title: data.title,
             note: data.content
         })
-
+        setShow(false)
         console.log(`Updated note...`)
     }
 
-    const deleteNote = async () => { await deleteDoc(doc(db, "notes", id)) }
+    const deleteNote = async () => {
+        await deleteDoc(doc(db, "notes", id))
+
+        setShow(false)
+        console.log('Deleted Note')
+    }
 
     return (
         <>

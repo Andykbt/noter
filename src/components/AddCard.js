@@ -3,7 +3,7 @@ import { Card, Modal } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
 import { useSpring, animated as a } from 'react-spring'
 
-import { collection, addDoc } from '@firebase/firestore'
+import { collection, addDoc, serverTimestamp } from '@firebase/firestore'
 import { db } from '../firebase'
 
 import * as classes from './AddCard.module.scss'
@@ -11,11 +11,12 @@ import * as classes from './AddCard.module.scss'
 export default function AddCard() {
     const { register, handleSubmit, reset } = useForm();
     const [ focus, setFocus ] = useState(false)
-
+    
     const onSubmit = async (data) => {
         const docRef = await (addDoc(collection(db, "notes"), {
             title: data.title,
-            note: data.content
+            note: data.content,
+            createdAt: serverTimestamp(),
         }))
 
         console.log("Document written with ID: " , docRef.id)
@@ -27,7 +28,7 @@ export default function AddCard() {
     })
 
     return (
-        <Card style={{width: '36rem'}} className={classes.container}> 
+        <Card style={{width: '50vw'}} className={classes.container}> 
             <form autoComplete={"off"} onSubmit={handleSubmit(onSubmit)} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)}>
                 <a.input
                     className={classes.formTitle}

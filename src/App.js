@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { Container, Row } from 'react-bootstrap';
 
 import { db } from './firebase'
-import { collection, query, onSnapshot } from '@firebase/firestore'
+import { collection, query, onSnapshot, orderBy } from '@firebase/firestore'
 import Note from './components/Note';
 import AddCard from './components/AddCard';
 
@@ -12,7 +12,7 @@ function App() {
   const [notes, setNotes] = useState();
 
   useEffect(() => {
-    const q = query(collection(db, "notes"))
+    const q = query(collection(db, "notes"), orderBy("createdAt", "desc"))
     const unsub = onSnapshot(q, (querySnapshot) => {
         let arr = []
         querySnapshot.forEach((doc) => {
@@ -30,7 +30,7 @@ function App() {
         <AddCard/>
 
         {notes &&
-        <div style={{display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gridGap:'25px'}}>
+        <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gridGap:'25px'}}>
           {notes.map((item) => {
             return <Note id={item.id} title={item.title} content={item.note}/>
           })}
